@@ -17,6 +17,16 @@ $(document).keypress(function (event) {
     }
 });
 
+$(document).on("keypress touchstart", function (event) { //mobile touch event
+    if (!started) {
+        console.log("GAME STARTED ✅"); // Log when the game has started
+
+        $("#level-title").text("Level " + level);
+        nextSequence();
+        started = true;
+    }
+});
+
 
 function nextSequence() { // Inside nextSequence(), increase the level by 1 every time nextSequence() is called.
     level++;
