@@ -1,8 +1,6 @@
 var buttonColours = ["red", "blue", "green", "yellow"];
-
 var gamePattern = [];
 var userClickedPattern = [];
-
 var started = false;
 var level = 0;
 
@@ -19,27 +17,8 @@ $(document).keypress(function (event) {
     }
 });
 
-// Use jQuery to detect when any of the buttons are clicked and trigger a handler function. 
-$(".btn").click(function () {
-    var userChosenColour = $(this).attr("id");
-    if (started === false) {
-        $("h1").text("GAME NOT STARTED YET 🚫🎮, Press Any Key to Restart "); // Change the h1 title to say "Game Over, Press Any Key to Restart" if the user got the sequence wrong.
-        var audio = new Audio("sounds/wrong.mp3");
-        audio.play();
-     
-        console.log("GAME NOT STARTED YET 🚫🎮"); // Log when the game hasn't started yet
-        return;
-    } else {
-        userClickedPattern.push(userChosenColour);
-    }
-    console.log("User clicked pattern: ", userClickedPattern); // Log the user clicked pattern
 
-    playSound(userChosenColour);
-    animatePress(userChosenColour);
-});
-
-function nextSequence() {
-    // Inside nextSequence(), increase the level by 1 every time nextSequence() is called.
+function nextSequence() { // Inside nextSequence(), increase the level by 1 every time nextSequence() is called.
     level++;
 
     // Inside nextSequence(), update the h1 with this change in the value of level.
@@ -53,13 +32,12 @@ function nextSequence() {
     playSound(randomChosenColour);
 }
 
-function playSound(name) {
+function playSound(name) {  // Use JavaScript to play the sound for the button colour selected in nextSequence()
     var audio = new Audio("sounds/" + name + ".mp3");
     audio.play().catch(function (error) {
         console.error("Error playing sound:", error);
     });
 }
-
 
 function animatePress(currentColor) { // Use jQuery to add this pressed class to the button that gets clicked inside animatePress().
     $("#" + currentColor).addClass("pressed"); // Add the pressed class to the button that gets clicked
@@ -68,6 +46,59 @@ function animatePress(currentColor) { // Use jQuery to add this pressed class to
     }, 100);
 }
 
+$(".btn").click(function () { // Use jQuery to detect when any of the buttons are clicked and trigger a handler function.
+    var userChosenColour = $(this).attr("id");
+    if (started === false) {
+        $("h1").text("GAME NOT STARTED YET 🚫🎮, Press Any Key to Restart "); // Change the h1 title to say "Game Over, Press Any Key to Restart" if the user got the sequence wrong.
+        var audio = new Audio("sounds/wrong.mp3");
+        audio.play();
+
+        console.log("GAME NOT STARTED YET 🚫🎮"); // Log when the game hasn't started yet
+        return;
+    } else {
+        userClickedPattern.push(userChosenColour);
+    }
+    playSound(userChosenColour);
+    animatePress(userChosenColour);
+    checkAnswer(userClickedPattern.length - 1); // Call checkAnswer() after a user has clicked and chosen their answer
+});
+
+function checkAnswer(currentLevel) {
+    // Check if the most recent user answer is the same as the game pattern
+    if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
+
+        // Check if the user has finished their sequence
+        if (userClickedPattern.length === gamePattern.length) {
+            setTimeout(function () {
+                nextSequence();
+                userClickedPattern = []; // Reset the userClickedPattern to an empty array ready for the next level
+            }, 1000);
+        }
+    } else {  // If the user got the sequence wrong
+        console.log("WRONG SEQUENCE 🚫❌"); // Log when the user got the sequence wrong
+        playSound("wrong");
+        $("body").addClass("game-over");
+        setTimeout(function () {
+            $("body").removeClass("game-over");
+        }, 200);
+        $("#level-title").text("Game Over, Press Any Key to Restart");
+
+        // Log the current state of the game variables
+        console.log("Level: " + level);
+        console.log("Game Pattern: " + gamePattern);
+        console.log("Started: " + started);
+        console.log("User Clicked Pattern: " + userClickedPattern);
+        
+        startOver();
+    }
+}
+
+function startOver() {
+    level = 0;
+    gamePattern = [];
+    started = false;
+    userClickedPattern = [];
+}
 
 
 
