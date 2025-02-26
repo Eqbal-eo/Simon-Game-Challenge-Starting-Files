@@ -4,10 +4,12 @@ body {
 }
 
 #level-title {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 3rem;
-  margin: 5%;
+  font-family: "Marhey", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
   color: #FEF2BF;
+  font-size: 3rem;
 }
 
 .container {
@@ -52,19 +54,3 @@ body {
   background-color: grey;
 }
 
-/* Media query for mobile devices */
-@media (max-width: 768px) {
-  #level-title {
-    font-size: 2rem;
-    margin: 10%;
-  }
-
-  .container {
-    width: 90%;
-  }
-  .btn {
-    height: 150px;
-    width: 150px;
-    margin: 15px;
-  }
-}

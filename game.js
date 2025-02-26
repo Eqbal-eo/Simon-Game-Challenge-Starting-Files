@@ -32,7 +32,7 @@ function nextSequence() { // Inside nextSequence(), increase the level by 1 ever
     level++;
 
     // Inside nextSequence(), update the h1 with this change in the value of level.
-    $("#level-title").text("GAME STARTED ✅\n Level " + level);
+    $("#level-title").text("بدأت اللعبة ✅\n المستوى " + level);
 
     var randomNumber = Math.floor(Math.random() * 4);
     var randomChosenColour = buttonColours[randomNumber];
@@ -59,7 +59,7 @@ function animatePress(currentColor) { // Use jQuery to add this pressed class to
 $(".btn").click(function () { // Use jQuery to detect when any of the buttons are clicked and trigger a handler function.
     var userChosenColour = $(this).attr("id");
     if (started === false) {
-        $("h1").text("GAME NOT STARTED YET 🚫🎮, Press Any Key to Restart "); // Change the h1 title to say "Game Over, Press Any Key to Restart" if the user got the sequence wrong.
+        $("h1").text("لم تبدأ اللعبة بعد 🚫🎮، اضغط على أي مفتاح لإعادة التشغيل "); // Change the h1 title to say "Game Over, Press Any Key to Restart" if the user got the sequence wrong.
         var audio = new Audio("sounds/wrong.mp3");
         audio.play();
 
@@ -91,7 +91,7 @@ function checkAnswer(currentLevel) {
         setTimeout(function () {
             $("body").removeClass("game-over");
         }, 200);
-        $("#level-title").text("Game Over, Press Any Key to Restart");
+        $("#level-title").text("خسرت اللعبة، اضغط على أي مفتاح لإعادة التشغيل");
 
         // Log the current state of the game variables
         console.log("Level: " + level);
